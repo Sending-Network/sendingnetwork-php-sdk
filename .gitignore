@@ -1,0 +1,5 @@
+build
+vendor
+phpcs.xml
+phpunit.xml
+.idea/
