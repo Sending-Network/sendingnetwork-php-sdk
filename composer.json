@@ -22,7 +22,7 @@
         "sending-network/sdk-php-sdk": "self.version"
     },
     "require": {
-        "php": "^8",
+        "php": ">=7.4",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.3|^7",
         "kornrunner/keccak": "^1.1",

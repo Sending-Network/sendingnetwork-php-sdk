@@ -152,24 +152,30 @@ class SDNClient {
      * @throws SDNRequestException
      * @throws ValidationException
      */
-    public function didLogin(string $walletAddress, string $did, string $message, string $signature, string $nonce, string $updateTime) {
-        $response = $this->api->didLogin($walletAddress, $did, $message, $signature, $nonce, $updateTime);
+    public function didLogin(string $walletAddress, string $did, string $message, string $signature, string $nonce, string $updateTime, string $appToken = "") {
+        $response = $this->api->didLogin($walletAddress, $did, $message, $signature, $nonce, $updateTime, $appToken);
         return $this->finalizeLogin($response);
     }
 
     /**
      * @throws Exception
      */
-    public function login(string $walletAddress, string $privateKey) {
+    public function login(string $walletAddress, string $privateKey, string $developerKey = null) {
         // get login params
         $preLoginResp = $this->preLogin($walletAddress);
 
         // sign with account private key
         $msgSig = Util::signMessage($preLoginResp['message'], $privateKey);
 
+        // sign with developer key
+        $appToken = "";
+        if ($developerKey != null) {
+            $appToken = Util::signMessage($preLoginResp['message'], $developerKey);
+        }
+
         // login
         return $this->didLogin($walletAddress, $preLoginResp['did'],
-            $preLoginResp['message'], $msgSig, $preLoginResp['random_server'], $preLoginResp['updated']);
+            $preLoginResp['message'], $msgSig, $preLoginResp['random_server'], $preLoginResp['updated'], $appToken);
     }
 
     /**

@@ -13,12 +13,13 @@ composer require sending-network/sdn-php-sdk
 
 ## Usage
 ### Prepare a configuration file
-Provide server node url, wallet address and private key in file bot.creds.json:
+Provide server node url, wallet address, private key and developer key in file bot.creds.json:
 ```json
 {
     "nodeUrl": "https://example.com",
-    "walletAddress": "",
-    "privateKey": ""
+    "walletAddress": "<WALLET_ADDRESS>",
+    "privateKey": "<PRIVATE_KEY>",
+    "developerKey": "<DEVELOPER_KEY>"
 }
 ```
 
@@ -27,10 +28,12 @@ Provide server node url, wallet address and private key in file bot.creds.json:
 require('vendor/autoload.php');
 use SdnSdk\SDNClient;
 
-$client = new SDNClient("https://example.com");
+$json_data = file_get_contents("bot.creds.json");
+$config = json_decode($json_data,true);
+$client = new SDNClient($config['nodeUrl']);
 
 // login
-$token = $client->login($walletAddress, $privateKey);
+$token = $client->login($config['walletAddress'], $config['privateKey'], $config['developerKey']);
 
 // add listener for events
 $client->addListener(function ($event) {

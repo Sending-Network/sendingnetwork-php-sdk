@@ -5,8 +5,6 @@ namespace SdnSdk\Examples;
 require __DIR__ . '/../vendor/autoload.php';
 
 use Exception;
-use kornrunner\Keccak;
-use Elliptic\EC;
 use SdnSdk\SDNClient;
 
 const CONFIG_FILE = "bot.creds.json";
@@ -16,7 +14,7 @@ print_r($config);
 
 try {
     $client = new SDNClient($config['nodeUrl']);
-    $accessToken = $client->login($config['walletAddress'], $config['privateKey']);
+    $accessToken = $client->login($config['walletAddress'], $config['privateKey'], $config['developerKey']);
 
     // save accessToken
     $config["accessToken"] = $accessToken;

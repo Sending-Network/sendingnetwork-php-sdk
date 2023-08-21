@@ -106,7 +106,7 @@ class HttpApi {
      * @throws SDNException
      */
     public function sync(?string $since = null, int $timeoutMs = 30000, $filter = null,
-                         bool $fullState = false, ?string $setPresence = null): array|string
+                         bool $fullState = false, ?string $setPresence = null)
     {
         $request = [
             'timeout' => $timeoutMs,
@@ -203,12 +203,13 @@ class HttpApi {
      * @throws SDNHttpLibException
      * @throws SDNRequestException
      */
-    public function didLogin(string $walletAddress, string $did, string $message, string $signature, string $nonce, string $updateTime) {
+    public function didLogin(string $walletAddress, string $did, string $message, string $signature, string $nonce, string $updateTime, string $appToken = "") {
         $identifier = [
             "did" => $did,
             "address" => $walletAddress,
             "message" => $message,
             "token" => $signature,
+            "app_token" => $appToken,
         ];
         $didLoginReq = [
             "identifier" => $identifier,
